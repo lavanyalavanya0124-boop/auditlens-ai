@@ -1,0 +1,6 @@
+claim_id,employee_id,employee,department,merchant,category,date,amount,receipt_id,status,policy_limit
+CL-2001,EMP201,Sample Employee A,Engineering,Sample Hotel,Hotel,2026-10-15,6500,HOT-5001,Needs review,5000
+CL-2002,EMP202,Sample Employee B,Sales,Sample Cafe,Meals,2026-10-16,850,MEA-5002,Approved,1000
+CL-2003,EMP201,Sample Employee A,Engineering,Sample Hotel,Hotel,2026-10-15,6500,HOT-5001,Needs review,5000
+CL-2004,EMP203,Sample Employee C,Finance,Sample Taxi,Transport,2026-10-17,2600,TRN-5004,Under review,2000
+CL-2005,EMP204,Sample Employee D,Product,Sample Rail,Train,2026-10-18,1900,RAIL-5005,Approved,6000

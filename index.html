@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuditLens AI | Travel Expense Audit</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <div><strong>AuditLens <span>AI</span></strong><small>Expense Intelligence</small></div>
+      </div>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav">
+        <button class="nav-item active" data-page="overview"><span>▦</span> Overview</button>
+        <button class="nav-item" data-page="claims"><span>▤</span> Expense claims <b class="nav-count" id="navPending">5</b></button>
+        <button class="nav-item" data-page="audit"><span>⌕</span> Audit findings</button>
+        <button class="nav-item" data-page="analytics"><span>▥</span> Analytics</button>
+        <button class="nav-item" data-page="reports"><span>▧</span> Reports</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card"><div class="help-icon">?</div><strong>Need a hand?</strong><p>Explore the demo workflow and audit rules.</p><button id="helpBtn">View quick guide →</button></div>
+        <div class="user-profile"><div class="avatar">LV</div><div><strong>Lavanya V.</strong><small>Audit analyst · Demo</small></div><span class="dots">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="menuBtn" aria-label="Open menu">☰</button>
+        <div class="crumb">Workspace <span>/</span> <strong id="crumbTitle">Overview</strong></div>
+        <div class="top-actions"><span class="demo-pill"><i></i> DEMO ENVIRONMENT</span><button class="icon-button" id="notifyBtn" title="Notifications">♧<em></em></button><div class="avatar small">LV</div></div>
+      </header>
+
+      <section class="page active" id="page-overview">
+        <div class="page-heading">
+          <div><div class="eyebrow">MONDAY, 27 OCTOBER 2026</div><h1>Good afternoon, Lavanya <span>✦</span></h1><p>Here’s what’s happening across your travel expense audits.</p></div>
+          <div class="heading-actions"><button class="btn btn-light" id="exportOverview">↓ Export summary</button><button class="btn btn-primary" id="uploadOpen">＋ Import expenses</button></div>
+        </div>
+        <div class="notice"><div class="notice-icon">✧</div><div><strong>Your audit workspace is ready</strong><p>Sample data is loaded. Import a CSV to test the workflow with your own demo records.</p></div><button id="dismissNotice" aria-label="Dismiss">×</button></div>
+        <div class="metric-grid">
+          <div class="metric-card"><div class="metric-top"><span>Total spend</span><span class="metric-icon blue">₹</span></div><div class="metric-value" id="totalSpend">₹27,800</div><div class="metric-foot"><span class="positive">↑ 8.4%</span> vs previous period</div></div>
+          <div class="metric-card"><div class="metric-top"><span>Claims processed</span><span class="metric-icon purple">▤</span></div><div class="metric-value" id="totalClaims">12</div><div class="metric-foot"><span class="muted">Across all departments</span></div></div>
+          <div class="metric-card"><div class="metric-top"><span>Needs review</span><span class="metric-icon amber">⚑</span></div><div class="metric-value" id="needsReview">5</div><div class="metric-foot"><span class="warning-text">Requires attention</span></div></div>
+          <div class="metric-card"><div class="metric-top"><span>Potential exceptions</span><span class="metric-icon red">!</span></div><div class="metric-value" id="exceptions">4</div><div class="metric-foot"><span class="muted">Policy and duplicate flags</span></div></div>
+        </div>
+        <div class="content-grid">
+          <div class="panel chart-panel"><div class="panel-head"><div><h2>Expense overview</h2><p>Spend by category · Current sample dataset</p></div><select id="chartPeriod" class="select"><option>Last 30 days</option><option>Last 90 days</option><option>This year</option></select></div><div class="chart-wrap"><canvas id="categoryChart"></canvas></div></div>
+          <div class="panel"><div class="panel-head"><div><h2>Audit health</h2><p>Claim review status</p></div><button class="text-button" data-goto="audit">View findings →</button></div><div class="health-score"><div class="score-ring"><span id="healthScore">67</span><small>/ 100</small></div><div><strong>Needs attention</strong><p>Review flagged claims to improve audit confidence.</p></div></div><div class="health-legend"><div><span class="legend-dot green"></span> Clear <strong id="clearCount">7</strong></div><div><span class="legend-dot amber-dot"></span> Needs review <strong id="reviewCount">5</strong></div></div><div class="progress-track"><div class="progress-fill" id="healthProgress" style="width:58%"></div></div><small class="subtle">Based on claims with no open flags</small></div>
+        </div>
+        <div class="panel table-panel"><div class="panel-head"><div><h2>Claims requiring attention</h2><p>Prioritized for auditor review</p></div><button class="text-button" data-goto="claims">View all claims →</button></div><div class="table-scroll"><table><thead><tr><th>CLAIM / EMPLOYEE</th><th>CATEGORY</th><th>SUBMITTED</th><th>AMOUNT</th><th>RISK</th><th>STATUS</th><th></th></tr></thead><tbody id="priorityRows"></tbody></table></div></div>
+        <div class="disclaimer">Demo prototype · Example employee names and amounts are fictional. Not connected to SAP Concur or any company system.</div>
+      </section>
+
+      <section class="page" id="page-claims">
+        <div class="page-heading"><div><div class="eyebrow">EXPENSE OPERATIONS</div><h1>Expense claims</h1><p>Review claims, inspect flags, and record audit decisions.</p></div><div class="heading-actions"><button class="btn btn-light" id="exportClaims">↓ Export CSV</button><button class="btn btn-primary" id="uploadOpen2">＋ Import expenses</button></div></div>
+        <div class="filter-bar"><div class="searchbox"><span>⌕</span><input id="claimSearch" placeholder="Search claim, employee or merchant..." /></div><select id="statusFilter" class="select"><option value="All">All statuses</option><option>Needs review</option><option>Under review</option><option>Approved</option><option>Rejected</option><option>Returned</option></select><select id="riskFilter" class="select"><option value="All">All risk levels</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+        <div class="panel table-panel"><div class="panel-head"><div><h2>All claims <span class="inline-count" id="claimCount">12</span></h2><p>Choose a claim to view the audit details.</p></div></div><div class="table-scroll"><table><thead><tr><th>CLAIM / EMPLOYEE</th><th>MERCHANT</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th><th>RISK</th><th>STATUS</th><th></th></tr></thead><tbody id="claimRows"></tbody></table></div><div class="table-footer"><span id="tableFoot">Showing 12 claims</span><span>Sample dataset</span></div></div>
+      </section>
+
+      <section class="page" id="page-audit">
+        <div class="page-heading"><div><div class="eyebrow">INVESTIGATION QUEUE</div><h1>Audit findings</h1><p>Potential exceptions surfaced by the demo rules engine.</p></div><div class="heading-actions"><button class="btn btn-light" id="exportFindings">↓ Export findings</button></div></div>
+        <div class="notice amber-notice"><div class="notice-icon">!</div><div><strong>Flags are prompts for review, not proof of fraud.</strong><p>Check receipt evidence, trip context, and approved exceptions before making a decision.</p></div></div>
+        <div class="finding-grid" id="findingCards"></div>
+      </section>
+
+      <section class="page" id="page-analytics">
+        <div class="page-heading"><div><div class="eyebrow">SPEND INTELLIGENCE</div><h1>Analytics</h1><p>Understand spend patterns across categories and departments.</p></div><button class="btn btn-light" id="exportAnalytics">↓ Export data</button></div>
+        <div class="content-grid analytics-grid"><div class="panel"><div class="panel-head"><div><h2>Spend by department</h2><p>Sum of submitted claims</p></div></div><div class="chart-wrap tall"><canvas id="departmentChart"></canvas></div></div><div class="panel"><div class="panel-head"><div><h2>Audit status breakdown</h2><p>Current claim outcomes</p></div></div><div class="chart-wrap tall"><canvas id="statusChart"></canvas></div></div></div>
+        <div class="panel table-panel"><div class="panel-head"><div><h2>Category summary</h2><p>Claim count and total spend</p></div></div><div class="table-scroll"><table><thead><tr><th>CATEGORY</th><th>CLAIMS</th><th>TOTAL SPEND</th><th>AVERAGE CLAIM</th><th>FLAGGED</th></tr></thead><tbody id="categoryRows"></tbody></table></div></div>
+      </section>
+
+      <section class="page" id="page-reports">
+        <div class="page-heading"><div><div class="eyebrow">REPORTING CENTRE</div><h1>Reports</h1><p>Export a review-ready snapshot for your demo audit workflow.</p></div></div>
+        <div class="report-grid">
+          <div class="report-card"><div class="report-art blue-art">▥</div><h3>Expense summary</h3><p>Claims, total expenditure, categories, and statuses.</p><button class="btn btn-light full" id="reportSummary">Download CSV report →</button></div>
+          <div class="report-card"><div class="report-art amber-art">⚑</div><h3>Audit findings</h3><p>Flagged claims with rule, severity, and review status.</p><button class="btn btn-light full" id="reportAudit">Download findings CSV →</button></div>
+          <div class="report-card"><div class="report-art purple-art">◷</div><h3>Review activity</h3><p>Current decisions and status of each expense claim.</p><button class="btn btn-light full" id="reportActivity">Download activity CSV →</button></div>
+        </div>
+        <div class="panel report-note"><div class="metric-icon blue">i</div><div><h3>About demo reports</h3><p>Reports are generated from the records currently loaded in this browser session. For a production version, connect a secured backend, database, authentication, role-based access, and an approved data source.</p></div></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="claimModal"><div class="modal wide-modal"><div class="modal-head"><div><div class="eyebrow">CLAIM DETAILS</div><h2 id="modalTitle">Claim CL-1001</h2></div><button class="close-btn" data-close="claimModal">×</button></div><div id="claimDetail"></div></div></div>
+  <div class="modal-backdrop" id="uploadModal"><div class="modal"><div class="modal-head"><div><div class="eyebrow">DATA INGESTION</div><h2>Import expense data</h2></div><button class="close-btn" data-close="uploadModal">×</button></div><p class="modal-copy">Upload a CSV file using the demo's column format. Your file is processed in this browser only.</p><div class="upload-zone"><div class="upload-symbol">↑</div><strong>Choose an expense CSV file</strong><p>CSV format · Use fictional data only</p><input type="file" id="csvFile" accept=".csv,text/csv" /></div><div class="csv-help"><strong>Required columns</strong><code>claim_id, employee_id, employee, department, merchant, category, date, amount, receipt_id, status</code><button class="text-button" id="downloadSample">Download sample CSV ↓</button></div><div class="modal-actions"><button class="btn btn-light" data-close="uploadModal">Cancel</button><button class="btn btn-primary" id="processCsv">Import file</button></div><div id="uploadMessage" class="upload-message"></div></div></div>
+  <div class="modal-backdrop" id="guideModal"><div class="modal"><div class="modal-head"><h2>Quick guide</h2><button class="close-btn" data-close="guideModal">×</button></div><ol class="guide-list"><li><strong>Import a CSV</strong><p>Use the sample format to load expense claims.</p></li><li><strong>Review findings</strong><p>Check policy-limit alerts and potential duplicate receipts.</p></li><li><strong>Open a claim</strong><p>Inspect the evidence and record a human review decision.</p></li><li><strong>Export a report</strong><p>Download the claim list or findings for a demo audit pack.</p></li></ol><div class="notice"><div class="notice-icon">i</div><div><strong>Prototype limitation</strong><p>This demo uses client-side rules and fictional/sample data. It does not connect to SAP Concur, approve real reimbursements, or provide a real fraud determination.</p></div></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
